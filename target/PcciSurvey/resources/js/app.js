@@ -201,9 +201,22 @@ function loadRelativeQuestion(rqid,cqid,qindex,aindex){
             success: function(data){                
                 var total = data.answers.length;
                 var questionId = data.questionId;
+                var questionType = data.questionType;
                 var answers = '<br/>';
                 for (var i in data.answers) {
-                    answers += '<div class="checkbox"><label><input type="radio" id="q'+qindex+'a'+aindex+'r" name="q'+qindex+'a'+aindex+'r" value="'+data.answers[i].answerId+'" />'+data.answers[i].answerText+'</label></div>';                    
+                    answers += '<div class="';
+                    if(questionType == 'single'){
+                    	answers += 'radio';
+                    }else if(questionType == 'multiple'){
+                    	answers += 'checkbox';
+                    }
+                    answers += '"><label><input type="';
+                    if(questionType == 'single'){
+                    	answers += 'radio';
+                    }else if(questionType == 'multiple'){
+                    	answers += 'checkbox';
+                    }
+                    answers += '" id="q'+qindex+'a'+aindex+'r" name="q'+qindex+'a'+aindex+'r" value="'+data.answers[i].answerId+'" />'+data.answers[i].answerText+'</label></div>';                    
                 }                                
                 get('cq'+qindex+'a'+aindex).innerHTML = '<div class="col-md-offset-1">'+data.questionText + answers + '</div>';
                 get('cq'+qindex+'a'+aindex).className = 'show';

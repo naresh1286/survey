@@ -49,7 +49,7 @@ public class QuestionAnswerController {
 	public @ResponseBody String getConditionQuestion(@RequestParam(value = "rqid") int conditionQuestionId){
 		List<Answer> answers = questionAnswerService.getAnswers(conditionQuestionId);
 		Question question = questionAnswerService.getQuestion(conditionQuestionId);
-		String response = "{\"questionId\":\""+question.getQuestionId()+"\",\"questionText\":\""+question.getQuestionText()+"\",\"answers\":[";
+		String response = "{\"questionId\":\""+question.getQuestionId()+"\",\"questionText\":\""+question.getQuestionText()+"\",\"questionType\":\""+question.getInputType().getInputTypeName()+"\",\"answers\":[";
 		for(int i=0;i<answers.size();i++){
 			response += "{";
 			response += "\"answerId\":\""+answers.get(i).getAnswerId()+"\",\"answerText\":\""+answers.get(i).getAnswerText()+"\"";			

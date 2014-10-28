@@ -41,14 +41,16 @@
 								<input type="hidden" id="qid${qi.index+1}" name="qid${qi.index+1}" value="${question.questionId}" />
 								<input type="hidden" id="selectqa${qi.index+1}" name="selectqa${qi.index+1}" value="no" />
 								
+								<%-- ===========================${question.inputType.inputTypeName}============================<br/> --%>
+								
 									<div id="q${qi.index+1}" class="${qi.index == 0 ? 'show' : 'hide'}">
 
 										<span id="qno${qi.index+1}">${qi.index+1}</span> . ${question.questionText}
 										<c:set var="ai" value="0" />
 										<c:forEach var="questionAnswer" items="${questionAnswerForm.questionAnswers}" varStatus="qai">											
 											<c:if test="${question.questionId eq questionAnswer.question.questionId}">
-											<div class="checkbox">
-												<label><input type="radio" id="q${qi.index+1}o" name="q${qi.index+1}o" onclick="loadRelativeQuestion('${questionAnswer.relativeQuestionId}','${questionAnswer.conditionQuestionId}','${qi.index+1}','${ai}')" value="${questionAnswer.answer.answerId}">${questionAnswer.answer.answerText}</label>
+											<div class="${question.inputType.inputTypeName == 'single' ? 'radio' : 'checkbox'}">
+												<label><input type="${question.inputType.inputTypeName == 'single' ? 'radio' : 'checkbox'}" id="q${qi.index+1}o" name="q${qi.index+1}o" onclick="loadRelativeQuestion('${questionAnswer.relativeQuestionId}','${questionAnswer.conditionQuestionId}','${qi.index+1}','${ai}',this)" value="${questionAnswer.answer.answerId}">${questionAnswer.answer.answerText}</label>
 											</div>
 											<%-- ${questionAnswer.relativeQuestionId}'=============='${questionAnswer.conditionQuestionId}<br/> --%>
 											<div id="cq${qi.index+1}a${ai}" class="hide"></div>

@@ -168,76 +168,106 @@ function submitSurvey(){
 
 function pxd(data, name) { return $(data).find(name).text().replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&raquo;/g, "Â»").replace(/&laquo;/g, "Â«"); }
 
-function loadRelativeQuestion(rqid,cqid,qindex,aindex){
-        
-    var total = get('totalCount').value;
+function loadRelativeQuestion(rqid,cqid,qindex,aindex,check){
     
-    if(qindex == 1){
-        get('prevBtn').className = 'btn btn-primary disabled';
-        get('nextBtn').className = 'btn btn-primary';
-    }else if(qindex > 1 && qindex < total){
-        get('prevBtn').className = 'btn btn-primary';
-        get('nextBtn').className = 'btn btn-primary';
-    }else if(qindex == total){
-        get('prevBtn').className = 'btn btn-primary';
-        get('nextBtn').className = 'btn btn-primary disabled';
-    }    
-    
-    get('nextQuestionId').value = 0;
-    
-    // to enable whether user selected an option for a question or not
-    get('selectqa'+qindex).value = 'yes';
-    
-    if(rqid != null || rqid != ''){
-        var qaCount = get('qaCount'+qindex).value;
-        for(var i=0;i<qaCount;i++){
-            get('cq'+qindex+'a'+i).className = 'hide';
-        }
-        $.ajax({
-            type: "POST",
-            url: "/PcciSurvey/getConditionQuestion",
-            data: "rqid="+rqid,
-            dataType: 'json',
-            success: function(data){                
-                var total = data.answers.length;
-                var questionId = data.questionId;
-                var answers = '<br/>';
-                for (var i in data.answers) {
-                    answers += '<div class="checkbox"><label><input type="radio" id="q'+qindex+'a'+aindex+'r" name="q'+qindex+'a'+aindex+'r" value="'+data.answers[i].answerId+'" />'+data.answers[i].answerText+'</label></div>';                    
-                }                                
-                get('cq'+qindex+'a'+aindex).innerHTML = '<div class="col-md-offset-1">'+data.questionText + answers + '</div>';
-                get('cq'+qindex+'a'+aindex).className = 'show';
-            },
-            error: function (data){
-                //alert("Please try again");
-            }
-        });    
-        if(cqid != ''){
-            //nextQuestionIndex.push(getQuestionIndex(cqid));
-            get('nextQuestionId').value = cqid;
-        }
-    }else{
-        var qaCount = get('qaCount'+qindex).value;
-        for(var i=0;i<qaCount;i++){
-            get('cq'+qindex+'a'+i).className = 'hide';
-        }
-        if(cqid != ''){
-            //nextQuestionIndex.push(getQuestionIndex(cqid));
-            get('nextQuestionId').value = cqid;
-        }        
-    }
-    
-    var done = document.getElementsByName('q'+qindex+'o');
-    
-    for(var i=parseInt(qindex,10)+1;i<=total;i++){    	
-    	var options = document.getElementsByName('q'+i+'o');
-    	get('selectqa'+i).value = 'no';
-    	for(var j=0;j<options.length;j++){
-    		if(options[j].getAttribute("type") == 'radio'){
-    			get('cq'+i+'a'+j).className = 'hide';
-    			options[j].checked = false;
-    		}
-    	}
-    }
-            
+	alert(check.checked);
+	
+	if(check.checked == false){
+		//alert(check.checked);
+		for(var i=parseInt(qindex,10)+1;i<=total;i++){    	
+	    	var options = document.getElementsByName('q'+i+'o');
+	    	get('selectqa'+i).value = 'no';
+	    	for(var j=0;j<options.length;j++){
+	    		get('cq'+i+'a'+j).className = 'hide';
+	    		options[j].checked = false;	    		
+	    	}
+	    }
+		
+	}else{
+		//alert(check.checked);
+		var total = get('totalCount').value;
+	    
+	    if(qindex == 1){
+	        get('prevBtn').className = 'btn btn-primary disabled';
+	        get('nextBtn').className = 'btn btn-primary';
+	    }else if(qindex > 1 && qindex < total){
+	        get('prevBtn').className = 'btn btn-primary';
+	        get('nextBtn').className = 'btn btn-primary';
+	    }else if(qindex == total){
+	        get('prevBtn').className = 'btn btn-primary';
+	        get('nextBtn').className = 'btn btn-primary disabled';
+	    }    
+	    
+	    get('nextQuestionId').value = 0;
+	    
+	    // to enable whether user selected an option for a question or not
+	    get('selectqa'+qindex).value = 'yes';
+	    
+	    if(rqid != null || rqid != ''){
+	        var qaCount = get('qaCount'+qindex).value;
+	        for(var i=0;i<qaCount;i++){
+	            get('cq'+qindex+'a'+i).className = 'hide';
+	        }
+	        $.ajax({
+	            type: "POST",
+	            url: "/PcciSurvey/getConditionQuestion",
+	            data: "rqid="+rqid,
+	            dataType: 'json',
+	            success: function(data){                
+	                var total = data.answers.length;
+	                var questionId = data.questionId;
+	                var questionType = data.questionType;
+	                var answers = '<br/>';
+	                for (var i in data.answers) {
+	                    answers += '<div class="';
+	                    if(questionType == 'single'){
+	                    	answers += 'radio';
+	                    }else if(questionType == 'multiple'){
+	                    	answers += 'checkbox';
+	                    }
+	                    answers += '"><label><input type="';
+	                    if(questionType == 'single'){
+	                    	answers += 'radio';
+	                    }else if(questionType == 'multiple'){
+	                    	answers += 'checkbox';
+	                    }
+	                    answers += '" id="q'+qindex+'a'+aindex+'r" name="q'+qindex+'a'+aindex+'r" value="'+data.answers[i].answerId+'" />'+data.answers[i].answerText+'</label></div>';                    
+	                }                                
+	                get('cq'+qindex+'a'+aindex).innerHTML = '<div class="col-md-offset-1">'+data.questionText + answers + '</div>';
+	                get('cq'+qindex+'a'+aindex).className = 'show';
+	            },
+	            error: function (data){
+	                //alert("Please try again");
+	            }
+	        });    
+	        if(cqid != ''){
+	            //nextQuestionIndex.push(getQuestionIndex(cqid));
+	            get('nextQuestionId').value = cqid;
+	        }
+	    }else{
+	        var qaCount = get('qaCount'+qindex).value;
+	        for(var i=0;i<qaCount;i++){
+	            get('cq'+qindex+'a'+i).className = 'hide';
+	        }
+	        if(cqid != ''){
+	            //nextQuestionIndex.push(getQuestionIndex(cqid));
+	            get('nextQuestionId').value = cqid;
+	        }        
+	    }
+	    
+	    var done = document.getElementsByName('q'+qindex+'o');
+	    
+	    for(var i=parseInt(qindex,10)+1;i<=total;i++){    	
+	    	var options = document.getElementsByName('q'+i+'o');
+	    	get('selectqa'+i).value = 'no';
+	    	for(var j=0;j<options.length;j++){
+	    		//if(options[j].getAttribute("type") == 'radio'){
+	    			get('cq'+i+'a'+j).className = 'hide';
+	    			options[j].checked = false;
+	    		//}
+	    	}
+	    }
+		
+	}
+	        
 }

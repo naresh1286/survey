@@ -129,11 +129,11 @@ insert into input_types (input_type_name,input_type_description,audit_id) values
 insert into input_types (input_type_name,input_type_description,audit_id) values('multiple','multiple choice answer',1);
 insert into input_types (input_type_name,input_type_description,audit_id) values('text','fill in the blank',1);
 
-insert into questions (question_text,input_type_id,audit_id) values ('Are you aware of your right to 48-hour access to general medical services under the GMs contract?',1,1);
-insert into questions (question_text,input_type_id,audit_id) values ('In the past 6 months, have you tried to see a GP or healthcare professional fairly quickly?',2,1);
+insert into questions (question_text,input_type_id,audit_id) values ('Are you aware of your right to 48-hour access to general medical services under the GMs contract?',2,1);
+insert into questions (question_text,input_type_id,audit_id) values ('In the past 6 months, have you tried to see a GP or healthcare professional fairly quickly?',1,1);
 insert into questions (question_text,input_type_id,audit_id) values ('Were you able to see a GP or healthcare professional on the same day or in the next 2 days the GP surgery or health centre was open?',1,1);
 insert into questions (question_text,input_type_id,audit_id) values ('If you couldnt be seen within the next 2 days the GP surgery or health center was open, Why was that?',2,1);
-insert into questions (question_text,input_type_id,audit_id) values ('If you have not seen a GP or healthcare professional in the past 6 months, why is that?',1,1);
+insert into questions (question_text,input_type_id,audit_id) values ('If you have not seen a GP or healthcare professional in the past 6 months, why is that?',2,1);
 
 insert into answers (answer_text,audit_id) values ('I have not needed to go',1);
 insert into answers (answer_text,audit_id) values ('I could not be seen at a convenient time',1);

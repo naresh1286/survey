@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -31,14 +33,14 @@ public class Question {
 	@Column(name="question_text")
 	private String questionText;
 		
-	@Column(name="input_type_id")
-	private int inputTypeId;
+	/*@Column(name="input_type_id")
+	private int inputTypeId;*/
 	
 	@Column(name="audit_id")
 	private int auditId;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn
+	@ManyToOne
+    @JoinColumn(name="input_type_id", nullable=false)
 	private InputType inputType;
 	
 	@OneToOne
@@ -102,13 +104,13 @@ public class Question {
 		this.conditionQuestion = conditionQuestion;
 	}
 
-	public int getInputTypeId() {
+	/*public int getInputTypeId() {
 		return inputTypeId;
 	}
 
 	public void setInputTypeId(int inputTypeId) {
 		this.inputTypeId = inputTypeId;
-	}
+	}*/
 
 	public int getAuditId() {
 		return auditId;

@@ -1,11 +1,14 @@
 package com.pcci.survey.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -32,8 +35,11 @@ public class InputType {
     @PrimaryKeyJoinColumn
     private AuditTable auditTable;
 	
-	@OneToOne(mappedBy="inputType",cascade=CascadeType.ALL)
-	private Question question;
+	/*@OneToOne(mappedBy="inputType",cascade=CascadeType.ALL)
+	private Question question;*/
+	
+	@OneToMany(mappedBy="inputType",cascade=CascadeType.ALL)
+	private Set<Question> questions;
 	
 	public int getInputTypeId() {
 		return inputTypeId;
@@ -66,5 +72,15 @@ public class InputType {
 	public void setAuditTable(AuditTable auditTable) {
 		this.auditTable = auditTable;
 	}
+
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
+	
+	
 
 }
